@@ -3,9 +3,17 @@ package com.javalab.school.execution;
 import java.sql.*;
 
 /**
- * 데이터베이스 접속 테스트 클래스
+ * 학생 목록을 조회하는 프로그램
+ *
+ * [데이터베이스 접속 순서]
  * 1. JDBC 드라이버 로딩 : Class.forName("oracle.jdbc.OracleDriver");
- * 2. 접속 정보 설정 : DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "school", "1234"); *
+ * 2. 접속 정보 설정 : DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "school", "1234");
+ * 3. SQL문 실행 : Connection 객체를 이용해서 PreparedStatement 객체 생성
+ * 4. SQL문 실행 : PreparedStatement 객체를 이용해서 ResultSet 객체 생성
+ * 5. 결과 처리 : ResultSet 객체를 이용해서 결과 처리
+ * 6. 접속 종료 : Connection 객체를 이용해서 접속 종료
+ * 7. 자원 해제 : ResultSet, PreparedStatement, Connection 객체를 이용해서 자원 해제
+ * 8. 예외 처리 : try-catch-finally 블록을 이용해서 예외 처리
  */
 public class StudentSelect {
     // 오라클 db에 접속해서 하기 위한 정보

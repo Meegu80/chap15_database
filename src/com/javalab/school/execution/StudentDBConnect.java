@@ -14,7 +14,15 @@ public class StudentDBConnect {
     public static void main(String[] args) {
         Connection conn = null;
         try {
+            // jdbc드라이버 로딩(오라클 ojdbc7.jar 파일 필요)
+            // jdbc 드라이버가 있어야 자바 프로그램에서 오라클 데이터베이스에서 접속할 수 있음
+            // 오라클 드라이버를 로딩하면 jdbc 드라이버가 driverManager에 등록됨.
             Class.forName("oracle.jdbc.OracleDriver");
+
+            // 오라클 db에 접속하기 위한 커넥션 얻기
+            // DriverManager에게서 커넥션을 요청해서 얻어내야 한다.
+            // user: 오라클 사용자 계정
+            // password : 오라클 사용자 계정 비밀번호
             conn = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1521:orcl", "school", "1234");
             System.out.println("DB 접속 성공");
