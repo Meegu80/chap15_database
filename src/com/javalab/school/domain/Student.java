@@ -14,7 +14,16 @@ public class Student {
 	//기본 생성자
 	public Student() {		
 	}
-	
+	//studentId, name, year, address, departmentId
+
+	public Student(String studentId, String name, int year, String address, int departmentId) {
+		this.studentId = studentId;
+		this.name = name;
+		this.year = year;
+		this.address = address;
+		this.departmentId = departmentId;
+	}
+
 	//오버로딩 생성자		printStudent(students);
 	public Student(String studentId, String jumin, String name, int year, String address, int departmentId) {
 		this.studentId = studentId;

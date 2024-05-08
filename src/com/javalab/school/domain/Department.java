@@ -1,10 +1,9 @@
 package com.javalab.school.domain;
 
 public class Department {
-
-	private int departmentId;			//학과 코드
+	private int departmentId;	//학과 코드
 	private String name;		//학과명
-	private String office;		//교실
+	private String office;		//과사무실
 	
 	public Department() {		
 	}	

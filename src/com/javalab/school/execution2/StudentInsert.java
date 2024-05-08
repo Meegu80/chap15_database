@@ -1,6 +1,10 @@
-package com.javalab.school.execution;
+package com.javalab.school.execution2;
 
-import java.sql.*;
+import com.javalab.school.dao.DatabaseConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -11,25 +15,8 @@ public class StudentInsert {
     public static void main(String[] args) {
         Connection conn = null;
         Scanner scanner = new Scanner(System.in);
-        try {
-            Class.forName("oracle.jdbc.OracleDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@localhost:1521:orcl", "school", "1234");
-            System.out.println("DB 접속 성공");
-
-            registerStudent(conn, scanner);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        conn = DatabaseConnection.getConnection(); // 커넥션 전담 객체에서 커넥션 얻기
+        registerStudent(conn, scanner);
     } // end of main
 
     private static void registerStudent(Connection conn, Scanner scanner) {
@@ -49,34 +36,35 @@ public class StudentInsert {
         int department = scanner.nextInt();
         scanner.nextLine();
 
+        String sql = "INSERT INTO student (student_id, jumin, name, year, address, department_id) " +
+                " VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
         try  {
-            String sql = "INSERT INTO student (student_id, jumin, name, year, address, department_id) " +
-                    " VALUES (?, ?, ?, ?, ?, ?)";
-
-            // Connection 구현 객체의 prepareStatement 메소드에 쿼리문을 전달해서
-            // 쿼리문을 실행할 수 있도록 준비를 하는 PreparedStatement 객체를 생성한다.
-            // PreparedStatement 객체에 동적으로 전달받는 파라미터(?)가 있다면 이를 세팅하는
-            // 과정을 거쳐야 한다.
+            // 커넥션 객체로부터 PreparedStatement 객체를 얻어냄
             // PreparedStatement.prepareStatement(실행할 쿼리문) : 쿼리 실행
             pstmt = conn.prepareStatement(sql);
-
-            // 쿼리문 실행 시에 전달할 파라미터(?)를 세팅한다.
-            // setString(파라미터 인덱스, 파라미터 값) : 파라미터 인덱스는 1부터 시작
-            pstmt.setString(1, id); // pstmt.setString(1, "값") : 첫번째 ?에 값 세팅
+            // 쿼리문의 ? 자리에 값을 채워넣음
+            pstmt.setString(1, id);
             pstmt.setString(2, jumin);
             pstmt.setString(3, name);
-            pstmt.setInt(4, year);  // pstmt.setInt(2, 100) : 두번째 ?에 100 세팅
+            pstmt.setInt(4, year);
             pstmt.setString(5, address);
             pstmt.setInt(6, department);
-
             // 쿼리문의 파라미터인 ? 를 채운 후 쿼리 실행
-            pstmt.executeUpdate(); // 쿼리 실행 저장/수정/삭제는 executeUpdate() 메소드 사용
+            int affectedRow = pstmt.executeUpdate(); // 쿼리 실행 저장/수정/삭제는 executeUpdate() 메소드 사용
             System.out.println("학생이 성공적으로 등록되었습니다.");
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            if (pstmt != null) {
+            scanner.close();
+//            if(conn != null) {
+//                try {
+//                    conn.close();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            if(pstmt != null) {
                 try {
                     pstmt.close();
                 } catch (SQLException e) {

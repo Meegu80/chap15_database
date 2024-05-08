@@ -4,38 +4,50 @@ package com.javalab.school.domain;
  * 성적 클래스
  */
 public class Takes {
+	private String studentId;
+	private String classId;
+	private String score;
 
-	private String id;		//학번
-	private String subject;	//과목코드
-	private String score;	//점수
-	
-	public Takes() {		
+	public Takes() {
 	}
-	public Takes(String id, String subject, String score) {
-		this.id = id;
-		this.subject = subject;
+
+	public Takes(String studentId, String classId, String score) {
+		this.studentId = studentId;
+		this.classId = classId;
 		this.score = score;
 	}
-	public String getId() {
-		return id;
+
+	// Getters and Setters
+	public String getStudentId() {
+		return studentId;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
 	}
-	public String getSubject() {
-		return subject;
+
+	public String getClassId() {
+		return classId;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+
+	public void setClassId(String classId) {
+		this.classId = classId;
 	}
+
 	public String getScore() {
 		return score;
 	}
+
 	public void setScore(String score) {
 		this.score = score;
 	}
+
 	@Override
 	public String toString() {
-		return "Takes [id=" + id + ", subject=" + subject + ", score=" + score + "]";
+		return "Takes{" +
+				"studentId='" + studentId + '\'' +
+				", classId='" + classId + '\'' +
+				", score='" + score + '\'' +
+				'}';
 	}
 }
